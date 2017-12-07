@@ -55,6 +55,10 @@ int main(int argc, char* argv[]){
     int** c = nullptr;
     int a, b;
     int choise;
+    if(argc<3){
+        cout << "Неверное количество элементов"<< endl;
+        return 0; 
+    }
     cr(c, a, b, argc, argv);
     while(true){
         menu();
