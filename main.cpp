@@ -42,7 +42,7 @@ void menu(){
     cout << "8. завершить работу программы" << endl;
 }
 
-void out( int**&c, int a, int b){
+void out( int**c, int a, int b){
     for (int i = 0; i < a; i++){
         for (int j = 0; j < b; j++)
             cout << c[i][j] << " ";
