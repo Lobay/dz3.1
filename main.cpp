@@ -43,9 +43,11 @@ void menu(){
 }
 
 void out( int**&c, int a, int b){
-    for (int i = 0; i < a; i++)
+    for (int i = 0; i < a; i++){
         for (int j = 0; j < b; j++)
-            cout << c[i][j] << endl;
+            cout << c[i][j] << " ";
+        cout << endl;
+    }
 }
 
 int main(int argc, char* argv[]){
