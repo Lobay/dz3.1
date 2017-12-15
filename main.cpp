@@ -159,6 +159,7 @@ int main(int argc, char* argv[]){
             break;
             case 4:
             tran (c, a, b);
+	    break;		
             case 5:
             stf (c, a, b);
             break;
