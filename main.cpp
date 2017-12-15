@@ -3,12 +3,13 @@
 #include<cstring>
 #include<locale>
 #include<cstdlib>
+#include<fstream>
 using namespace std;
 
 void cr(int**& c, int& a, int& b, int argc, char* argv[]){
-    int i, j, n;
+    int i, j, n, d;
     n = 2;
-    string x, y;
+    string x, y, prom;
     for ( i=0; (argv[1][i] != 'x') && (argv[1][i] != 'X'); i++ )
         x += argv[1][i];
     for ( i += 1; i < strlen(argv[1]); i++ )
@@ -23,11 +24,29 @@ void cr(int**& c, int& a, int& b, int argc, char* argv[]){
     for ( i = 0; i < a; i++ )
         for ( j = 0; j < b; j++ )
             c[i][j]=0;
+    if(argc==3) {
+	string prom;
+	d=0;
+	for ( i = 0; i < a; i++ )
+		for ( j = 0; j < b; j++) {
+			for(; d<strlen(argv[2]); d++) {
+				if( argv[2][d]>='0' && argv[2][d]<='9' ) {
+					prom = argv[2][d];
+					c[i][j] = c[i][j]*10+atoi( prom.c_str() );
+				}else if(argv[2][d] == ','){
+				    d++;
+				    break;
+				}
+
+			}
+		}
+}
     for ( i = 0; i < a; i++ )
-        for ( j = 0; j < b; j++, n++){
+        for ( j = 0; j < b; j++, n++ ){
             if ( n < argc )
                 c[i][j] = atoi( argv[n] );
         }
+
 }
 
 void menu(){
@@ -46,8 +65,69 @@ void out( int**c, int a, int b){
     for (int i = 0; i < a; i++){
         for (int j = 0; j < b; j++)
             cout << c[i][j] << " ";
-        cout << endl;
+        cout<< endl;}
+}
+
+void add(int**&c, int a, int b)
+{
+    int dopmat, i, j;
+    cout << "Введите матрицу " << a << "x" << b << endl;
+    for(i = 0; i < a; i++){
+        for(j = 0; j < b; j++){
+        cin >> dopmat;
+        c[i][j] = c[i][j] + dopmat;}
     }
+    cout << endl;
+    for( i=0; i < a; i++){
+        for(j=0; j < b; j++){
+        cout << c[i][j] << " ";}
+    cout << endl;
+    }
+}
+
+void mul(int**&c, int &a, int &b)
+{
+    if(c==nullptr){
+    cout << " Пустая матрица ";
+    return;
+}
+    string cs;
+    int a1=0;
+    int b1=0;
+    cout << "Введите размер матрицы" << endl;
+    cin >> cs;
+    a1 = atoi(cs.c_str());
+
+}
+
+void stf(int**c, int a, int b)
+{
+    int i, j;
+    ofstream file ("matrix.txt");
+    file << a << "x" << b << endl;
+    for( i=0; i < a; i++){
+        for( j=0; j < b; j++)
+        file << c[i][j] << " ";
+        file << endl;
+    }
+    file.close();
+}
+
+void lff(int**&c, int &a, int &b)
+{
+    int i, j;
+    ifstream filein("matrix.txt");
+    if(filein.is_open()) {
+        filein >> a >> b;
+        c = new int*[a];
+        for ( i=0; i < a; i++)
+        c[i] = new int[b];
+        for( i=0; i<a; i++)
+            for( j =0; j < b; j++)
+            filein >> c[i][j];
+        filein.close();
+    }
+    else cout << " Файл не найден ";
 }
 
 int main(int argc, char* argv[]){
@@ -55,10 +135,9 @@ int main(int argc, char* argv[]){
     int** c = nullptr;
     int a, b;
     int choise;
-    if(argc<3){
-        cout << "Неверное количество элементов"<< endl;
-        return 0; 
-    }
+    if (argc<3){
+    cout << "Hеверное количество элементов" << endl;
+    return 0;}
     cr(c, a, b, argc, argv);
     while(true){
         menu();
@@ -67,6 +146,17 @@ int main(int argc, char* argv[]){
             case 1:
             out (c, a, b);
             break;
+            case 2:
+            add (c, a, b);
+            break;
+            case 5:
+            stf(c, a, b);
+            break;
+            case 6:
+            lff(c, a, b);
+            break;
+            case 8:
+              return 0;
         }
     }
 }
