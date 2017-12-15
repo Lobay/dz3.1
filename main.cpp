@@ -85,26 +85,29 @@ void add(int**&c, int a, int b)
     }
 }
 
-void mul(int**&c, int &a, int &b)
+void tran(int**&c, int &a, int &b)
 {
-    if(c==nullptr){
-    cout << " Пустая матрица ";
-    return;
+    int i, j;
+    int **dopmat = nullptr;
+    dopmat = new int*[b];
+    for(i=0; i<b; i++)
+    dopmat[i] = new int[a];
+    for(i=0; i<b; i++)
+        for(j=0; j<a; j++)
+        dopmat[i][j] = c[j][i];
+        for( i=0; i < a; i++)
+            delete[] c[i];
+        delete[] c;
+    c= dopmat;
+    swap( a, b );
 }
-    string cs;
-    int a1=0;
-    int b1=0;
-    cout << "Введите размер матрицы" << endl;
-    cin >> cs;
-    a1 = atoi(cs.c_str());
 
-}
 
 void stf(int**c, int a, int b)
 {
     int i, j;
     ofstream file ("matrix.txt");
-    file << a << "x" << b << endl;
+    file << a << " " << b << endl;
     for( i=0; i < a; i++){
         for( j=0; j < b; j++)
         file << c[i][j] << " ";
@@ -116,16 +119,21 @@ void stf(int**c, int a, int b)
 void lff(int**&c, int &a, int &b)
 {
     int i, j;
-    ifstream filein("matrix.txt");
-    if(filein.is_open()) {
-        filein >> a >> b;
+    ifstream fin("matrix.txt");
+    if(fin.is_open()) {
+        fin >> a >> b;
+        if(c!=nullptr){
+        for(int i=0;i<a;i++)
+        delete []c[i];
+        delete []c;
+        }
         c = new int*[a];
         for ( i=0; i < a; i++)
         c[i] = new int[b];
         for( i=0; i<a; i++)
             for( j =0; j < b; j++)
-            filein >> c[i][j];
-        filein.close();
+            fin >> c[i][j];
+        fin.close();
     }
     else cout << " Файл не найден ";
 }
@@ -149,11 +157,13 @@ int main(int argc, char* argv[]){
             case 2:
             add (c, a, b);
             break;
+            case 4:
+            tran (c, a, b);
             case 5:
-            stf(c, a, b);
+            stf (c, a, b);
             break;
             case 6:
-            lff(c, a, b);
+            lff (c, a, b);
             break;
             case 8:
               return 0;
