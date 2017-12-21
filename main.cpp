@@ -85,6 +85,54 @@ void add(int**&c, int a, int b)
     }
 }
 
+void mul(int**&c, int a, int b)
+{
+    int i, j, s, m, n;
+    string x, x1, x2;
+    cout << "Ведите размер матрицы" << endl;
+    cin >> x;
+    for( i=0; x[i] != 'x' && x[i] != 'X'; i++){
+        x1 += x[i];
+    }
+    for( i += 1; i < x.length(); i++){
+        x2 += x[i];
+    }
+    m = atoi (x1.c_str());
+    n = atoi (x2.c_str());
+    if(b == m){
+        cout << "Введите элементы матрицы" << endl;
+        int **dopmat1;
+        dopmat1 = new int*[a];
+        for( i=0; i < m; i++)
+            dopmat1[i] = new int[n];
+        for( i=0; i < m; i++)
+            for( j=0; j < n; j++)
+                cin >> dopmat1[i][j];
+        int **dopmat2;
+        dopmat2 = new int*[a];
+        for( i=0; i < a; i++)
+            dopmat2[i] = new int[n];
+        for( i=0; i < a; i++)
+            for( j=0; j < n; j++)
+                dopmat2[i][j] = 0;
+        for(i=0; i < a; i++){
+            for(j=0; j < n; j++){
+                for( s=0; s < m; s++)
+                    dopmat2[i][j] += c[i][s] * dopmat1[s][j];}}
+        cout << "Результат:" << endl;
+        b = n;
+        for( i=0; i < m; i++)
+            delete[] dopmat1[i];
+        delete[] dopmat1;
+        for( i=0; i < a; i++)
+            delete[] c[i];
+        delete[] c;
+        c = dopmat2;
+        out(c, a, b);
+    }
+    else cout << "Неверный размер";
+}
+
 void tran(int**&c, int &a, int &b)
 {
     int i, j;
@@ -157,6 +205,9 @@ int main(int argc, char* argv[]){
             case 2:
             add (c, a, b);
             break;
+	    case 3:
+	    mul (c, a, b);
+	    break;
             case 4:
             tran (c, a, b);
 	    break;		
@@ -167,7 +218,10 @@ int main(int argc, char* argv[]){
             lff (c, a, b);
             break;
             case 8:
-              return 0;
+	    delete[] c;
+            return 0;
+            default:
+            cout << " Неверная команда " << endl;
         }
     }
 }
