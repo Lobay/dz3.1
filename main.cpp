@@ -102,7 +102,7 @@ void mul(int**&c, int a, int b)
     if(b == m){
         cout << "Введите элементы матрицы" << endl;
         int **dopmat1;
-        dopmat1 = new int*[a];
+        dopmat1 = new int*[m];
         for( i=0; i < m; i++)
             dopmat1[i] = new int[n];
         for( i=0; i < m; i++)
