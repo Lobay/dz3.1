@@ -186,6 +186,107 @@ void lff(int**&c, int &a, int &b)
     else cout << " Файл не найден ";
 }
 
+void sort(int**&c, int a, int b){
+    int k, i, j;
+    char ch;
+    cout << "Введите порядок сортировки" << endl;
+    cout << "s: Змейкой" << endl;
+    cout << "e: Улиткой" << endl;
+    cout << "a: Муравьём" << endl;
+    int *mas = new int[a*b];
+    for ( i=0, k=0; i < a; i++)
+        for( j=0; j < b; j++, k++)
+            mas[k] = c[i][j];
+    for ( i=0; i < (a*b); i++)
+        for( j=(i+1); j < (a*b); j++){
+            if ( mas[i] > mas[j]){
+                swap ( mas[i], mas[j] );
+            }
+        }
+    cin >> ch;
+    switch (ch){
+        case 's' :{
+        for( i=0, k=0; i < b; i++ )
+            for( j=0; j < a; j++, k++ )
+                c[j][i] = mas[k];
+        for( i=0; i <(a/2); i++){
+            for(j=0; j < b; j++){
+                if((j%2) ==1){
+                    swap( c[i][j], c[a-i-1][j]);
+                }
+            }
+        }
+        for( i=0; i < a; i++ ){
+            for( j=0; j < b; j++ ){
+                cout << c[i][j] << " ";
+                }
+            cout << endl;
+            }
+            break;
+        }
+        case 'e':{
+            int x = a;
+            int y = b;
+            int ogr;
+            int n = 0;
+            int m = 0;
+            int t = 0;
+            while ( x > 0 && y > 0) {
+                if ((((x+y) * 2) - 4) > 0 && x > 1 && y > 1)
+                    ogr = (((x + y) * 2) - 4);
+                else if ((((x + y) * 2) - 4) > 0 && x == 1)
+                    ogr = y;
+                else if ((((x + y) * 2) - 4) > 0 && y == 1)
+                    ogr = x;
+                else if ((((x + y) * 2) - 4) == 0)
+                    ogr = 1;
+                for ( int i = n, j = m, k = 0; k < ogr; k++){
+                    if ( j < (b - 1) - m && i == n){
+                        c[i][j] = mas [t];
+                        j++;
+                        t++;}
+                    else if (i < (a - 1) - n && j == (b - 1) - m){
+                        c[i][j] = mas[t];
+                        i++;
+                        t++;}
+                    else if (j > m && i == (a - 1) - n){
+                        c[i][j] = mas[t];
+                        j--;
+                        t++;}
+                    else if (i > n && j == m){
+                        c[i][j] = mas[t];
+                        i--;
+                        t++;}
+                    else if (i == j && ogr == 1){
+                        c[i][j] = mas[t];
+                        j++;
+                        t++;}
+                    }
+                    n++;
+                    m++;
+                    x = x-2;
+                    y = y-2;
+            }
+            for (i=0; i < a; i++){
+                for(j=0; j < b; j++){
+                    cout << c[i][j] << " ";
+                }
+                cout << endl;
+            }
+            break;
+        }
+        case 'a' :{
+            for (i=0, k=0; i < a; i++){
+                for (j=0; j < b; j++, k++){
+                    cout << mas[k] << " "; }
+                cout << endl;
+            }
+            break;
+        }
+    }
+    delete [] mas;
+}
+
 int main(int argc, char* argv[]){
     setlocale(LC_ALL, "Russian");
     int** c = nullptr;
@@ -205,23 +306,26 @@ int main(int argc, char* argv[]){
             case 2:
             add (c, a, b);
             break;
-	    case 3:
-	    mul (c, a, b);
-	    break;
+            case 3:
+            mul (c, a, b);
+            break;
             case 4:
             tran (c, a, b);
-	    break;		
+            break;
             case 5:
             stf (c, a, b);
             break;
             case 6:
             lff (c, a, b);
             break;
+            case 7:
+            sort (c, a, b);
+            break;
             case 8:
-	    delete[] c;
+            delete[] c;
             return 0;
             default:
-            cout << " Неверная команда " << endl;
+                cout << " Неверная команда " << endl;
         }
     }
 }
